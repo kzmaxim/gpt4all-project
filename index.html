@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with GPT-4</title>
+</head>
+<body>
+    <h1>Chat with GPT-4</h1>
+    <form id="chatForm">
+        <textarea id="message" rows="4" cols="50" placeholder="Введите сообщение"></textarea><br>
+        <button type="submit">Отправить</button>
+    </form>
+    <div id="response"></div>
+
+    <script>
+        document.querySelector("form").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const message = document.querySelector("#messageInput").value;
+    
+    fetch("http://localhost:5000/api/chat", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ message: message })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Response:", data);
+        // Выводим ответ на страницу
+        document.querySelector("#response").innerText = data.response;
+    })
+    .catch(error => {
+        console.error("Error:", error);
+    });
+});
+
+    </script>
+</body>
+</html>
+
